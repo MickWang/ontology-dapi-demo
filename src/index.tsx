@@ -1,4 +1,4 @@
-import * as Ontology from 'ontology-dapi';
+import * as Ontology from '@ont-dev/ontology-dapi';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';

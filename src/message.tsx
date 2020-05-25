@@ -1,4 +1,4 @@
-import { client, Signature } from 'ontology-dapi';
+import { client, Signature } from '@ont-dev/ontology-dapi';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { RouterProps } from 'react-router';
@@ -11,6 +11,21 @@ export const Message: React.SFC<RouterProps> = (props) => {
 
     try {
       const result = await client.api.message.signMessage({ message });
+      // tslint:disable-next-line:no-console
+      console.log('signature:', result);
+      alert('onSignMessage finished, signature:' + result.data);
+    } catch (e) {
+      alert('onSignMessage canceled');
+      // tslint:disable-next-line:no-console
+      console.log('onSignMessage error:', e);
+    }
+  }
+
+  async function onSignMessageWithIdentity(values: any) {
+    const message: string = values.message;
+    const useIdentity = true;
+    try {
+      const result = await client.api.message.signMessage({ message, useIdentity });
       // tslint:disable-next-line:no-console
       console.log('signature:', result);
       alert('onSignMessage finished, signature:' + result.data);
@@ -56,6 +71,22 @@ export const Message: React.SFC<RouterProps> = (props) => {
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <h4>Message</h4>
+            <Field name="message" component="textarea" />
+
+            <br />
+            <br />
+            <button type="submit">Sign</button>
+          </form>
+        )}
+      />
+       <Form
+        initialValues={{
+          message: 'test message'
+        }}
+        onSubmit={onSignMessageWithIdentity}
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <h4>Sign message with identity</h4>
             <Field name="message" component="textarea" />
 
             <br />
